@@ -1,0 +1,19 @@
+# Secrets — never commit the API key
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Companies House bulk data product and anything extracted from it (huge; not ours to host)
+*.zip
+*.csv
+extracted/
+data/extracted/
+
+# transient run log
+data/_run.log
+
+# qualified_leads.json and agent_input.md ARE committed (small, public-register data)
