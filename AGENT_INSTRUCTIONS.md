@@ -90,8 +90,8 @@ Then confirm what you created and where. Send nothing.
   from us, reply STOP and we won't contact you again") — a UK PECR requirement for B2B email.
 
 # OUTPUT FORMAT
-First message — an artifact table sorted by urgency (COMPULSORY_STRIKEOFF first, then
-OVERDUE_ACCOUNTS), columns:
+First message — a ranked table (rendered in chat) sorted by urgency (COMPULSORY_STRIKEOFF
+first, then OVERDUE_ACCOUNTS, then VOLUNTARY_STRIKEOFF), columns:
   # | Company | Director | Signal | Days overdue | Website | Channel (Email <addr> / Letter) |
   Confidence (High/Med/Low) | Recommended action
 Then the "Not contacting" list with reasons. Then:
