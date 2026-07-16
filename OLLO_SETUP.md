@@ -120,39 +120,48 @@ connected.) ⚠️ Confirm Firecrawl will fetch a raw githubusercontent URL in y
 ## 5. Three-minute demo script
 
 Goal: show the **variable path** and a **well-handled refusal** — the two things almost nobody
-demos. Pre-load `agent_input.md`, have Gmail authorised, and know your three leads cold.
+demos. Pre-load `agent_input.md`, have Gmail authorised, and know these leads cold.
 
-**Your three demo leads (from this run — confirm they still behave in a dry run):**
+**The curated demo set (all 8 pre-verified live — the agent still discovers all of this itself; this table is only so *you* know what to expect):**
 
-| Role in demo | Lead | Why it's the right one |
-|---|---|---|
-| **EMAIL** (happy path) | **1ST CHOICE ROOFERS LTD** (12471414, Luton, SIC *roofing*) | A real trade with a name that searches well — likely a findable site + email. |
-| **LETTER** (fallback) | **2 TONE TRUCKING LTD** (11061680, Bedford, SIC *freight transport*) | A real haulier operating from a nursery/yard address — the kind of business that often has no website, forcing the letter branch. |
-| **ABSTAIN** (refusal) | **121CREATIVE LIMITED** (15876207, Biggleswade, **VOLUNTARY_STRIKEOFF**, 0 days overdue) | The directors themselves applied to close it. Unless the web shows a thriving business, the agent should decline. |
+| # | Lead | Signal | Expected outcome (pre-checked) |
+|---|---|---|---|
+| 1 | **SHEDSWAREHOUSE LIMITED** (07829634, Bedford) | COMPULSORY | **EMAIL** — live e-commerce site shedswarehouse.com → email `help@ilikestores.com`. |
+| 2 | **EATALIA BEDFORD LIMITED** (09788366, Bedford) | COMPULSORY | **EMAIL** — trading Italian restaurant, eataliabedford.co.uk, 72 High St → email `Eatalia1@mail.com`. |
+| 3 | **2 TONE TRUCKING LTD** (11061680, Bedford) | COMPULSORY | **LETTER** — small haulier, no website → letter to the registered office. |
+| 4 | **ABS AUTO & TYRES LIMITED** (10156797, Biggleswade) | OVERDUE | **LETTER** — real garage, directory listings + phone only, no email → letter. |
+| 5 | **24-7 CARS BEDFORD LTD** (06645947, Bedford) | COMPULSORY | **LETTER (nuance)** — real taxi firm *with* a site (247carsbedford.co.uk) but phone-only, no email → still a letter. |
+| 6 | **1ST CHOICE ROOFERS LTD** (12471414, Luton) | COMPULSORY | **ABSTAIN** — the web shows a *different* roofer ("First Choice Roofing & Building Solutions") → not the same entity. |
+| 7 | **A WORLD OF OLD LIMITED** (06471175) | VOLUNTARY | **EMAIL via override** — voluntary strike-off, *but* aworldofold.co.uk shows a thriving antiques shop → agent may override the abstain and email `Info@aworldofold.co.uk`. |
+| 8 | **A PIZZA THIS LTD** (13522210, Cranfield) | VOLUNTARY | **ABSTAIN** — voluntary strike-off, no web evidence of trading → winding down. |
 
-> Backup abstain, if you want a second: **10502670 LTD** (10502670) — a number-named company
-> with no director on file; the agent should find no evidence of a real trading business.
-> Live web behaviour can drift — do the dry run in §6 and swap from `qualified_leads.json` if a
-> lead no longer fits its role.
+> These outcomes were verified live on 16 Jul 2026. Web presence can drift — do the dry run in
+> §6. **Do not tell the agent any of this** (no emails, no roles) — the whole point is that it
+> discovers them. Swap from `qualified_leads.json` (24 leads) if any lead has moved.
 
-
-
-1. **(0:00) Frame it (20s).** "A script already filtered 5.6M companies to Bedfordshire firms
+1. **(0:00) Frame it (20s).** "A script already filtered 5.7M companies to Bedfordshire firms
    in filing distress and verified them live. This agent does the part that needs judgment —
    read the web, decide, draft, and it never sends."
-2. **(0:20) Happy path — EMAIL (45s).** Point at **1ST CHOICE ROOFERS LTD (12471414)**. Watch Firecrawl search →
-   find the real site → read the contact page → pull a business email → mark channel EMAIL.
-   This is the normal case.
-3. **(1:05) The fallback — LETTER (45s).** Point at **2 TONE TRUCKING LTD (11061680)**. It searches, finds no
-   usable website/email, and *chooses* to fall back to a physical letter to the registered
-   office. **Say out loud:** "That branch — the agent picking letter over email on its own —
-   is the thing a script can't do. It's the reason this is an agent."
-4. **(1:50) The refusal — ABSTAIN (40s).** Point at **121CREATIVE LIMITED (15876207)**. It finds no evidence
-   of a real trading business (or a voluntary-strike-off it can't contradict) and puts it under
-   "Not contacting" with a reason — refusing to draft. **Say:** "A correct refusal is worth as
-   much as a good draft. Most agents can't say no."
-5. **(2:30) The gate + ending (30s).** It stops and asks which numbers to action. Reply with
-   two (the email + the letter). It creates a **Gmail draft** (open it — show it's a draft,
+2. **(0:20) Happy path — EMAIL (45s).** Point at **SHEDSWAREHOUSE (07829634)** (and, if time,
+   **EATALIA (09788366)**). Watch Firecrawl search → find the real site → read the contact page
+   → pull a business email → mark channel EMAIL. Two clean emails from a compulsory-strike-off
+   e-commerce firm and a trading restaurant.
+3. **(1:05) The fallback — LETTER (45s).** Point at **2 TONE TRUCKING (11061680)**. It searches,
+   finds no usable website/email, and *chooses* to fall back to a physical letter to the
+   registered office. **Say out loud:** "That branch — the agent picking letter over email on
+   its own — is the thing a script can't do. It's the reason this is an agent." (Bonus: **24-7
+   CARS (06645947)** *has* a website but no email → still a letter. Judgment, not keyword-matching.)
+4. **(1:50) The refusal — ABSTAIN (40s).** Point at **1ST CHOICE ROOFERS (12471414)**. It finds
+   a roofing company online — but a *different* one (different name, address, people) — and
+   refuses to treat it as the lead: "not the same entity." **Say:** "A correct refusal is worth
+   as much as a good draft. Most agents can't say no." (Bonus: **A PIZZA THIS** — voluntary,
+   winding down, no web evidence → also abstain.)
+5. **(2:20) The judgment flex — OVERRIDE (20s, optional).** Point at **A WORLD OF OLD
+   (06471175)**. Signal says VOLUNTARY_STRIKEOFF (weak), but the agent finds a thriving antiques
+   shop and *overrides* — treating it as a lead and drafting. "It doesn't blindly follow the
+   signal; it reads the evidence and can argue with it."
+6. **(2:40) The gate + ending (20s).** It stops and asks which numbers to action. Reply with a
+   couple (an email + the letter). It creates a **Gmail draft** (open it — show it's a draft,
    unsent, with the PECR opt-out line) and the **letter artifact**. "Nothing was sent. A human
    is always between drafted and sent."
 
@@ -167,9 +176,9 @@ dependence on website-matching.
 - [ ] `{{FIRM_NAME}}` replaced everywhere in the pasted instructions.
 - [ ] Gmail authorised on the firm's account; **send scope withheld**, drafts scope granted.
 - [ ] `agent_input.md` open in a tab, ready to paste (or raw URL ready).
-- [ ] You've done one **full dry run today** — websites change; confirm your three demo leads
-      still behave (one finds a site+email, one finds nothing, one is clearly not-a-business).
-      If a lead has drifted, swap in another from `qualified_leads.json` and update the script.
+- [ ] You've done one **full dry run today** — websites change; confirm the 8 demo leads still
+      behave (2 find a site+email, 2–3 find no email → letter, 2 are abstains, 1 is an override).
+      If a lead has drifted, swap in another from `qualified_leads.json` and update the table.
 - [ ] You can point to the exact line in AGENT_INSTRUCTIONS that produces each behaviour.
 - [ ] You can answer "why an agent not a cron job" in one breath (unstructured input +
       variable path + the letter fallback).

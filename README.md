@@ -181,9 +181,18 @@ Two things worth saying out loud in the interview:
 - The "21 kept from 39 checked" is a **deliberately capped demo slice** (the pipeline stops at
   a per-signal quota so the agent gets a varied set). The full addressable pool is 10,417
   candidates → thousands of live leads; this repo just produces enough to demo well.
+- **The distress ↔ contactability tension** (a genuinely useful finding): the businesses
+  distressed enough to still be overdue are the *least* likely to have a polished web presence.
+  Curating the 8-lead demo set meant re-verifying candidates live — and several promising
+  trading businesses (a driving-safety firm, a High-St tobacconist, a garage) had **caught up
+  on their filings since the June export and were no longer leads.** That "resolved since
+  snapshot" drop is the same reason the live check exists — and it's why the demo leads are
+  re-verified on the day, not trusted from a month-old file.
 
-Curated demo set: **[data/agent_input.md](data/agent_input.md)** (8 leads). Full output:
-**[data/qualified_leads.json](data/qualified_leads.json)** (21 leads).
+Curated demo set: **[data/agent_input.md](data/agent_input.md)** (8 leads, each role
+pre-verified live). Full output: **[data/qualified_leads.json](data/qualified_leads.json)**
+(24 leads — the 21 from the run plus 3 established trading businesses re-verified live so the
+demo reliably exercises the email path).
 
 ---
 
