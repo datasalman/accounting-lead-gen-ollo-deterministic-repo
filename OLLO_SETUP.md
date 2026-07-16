@@ -56,42 +56,44 @@ an abstained lead, always include a PECR opt-out) rather than to vibe.
 
 ---
 
-## 3. Tools — connect exactly these three
+## 3. Tools — the exact individual tools to enable
 
-Your web tool is **Firecrawl**, full stop. ollo's **Search** category (agentic search / Drive /
-Notion / Calendar) searches *connected sandbox sources*, not the open web — useless for
-discovering a company's website — so it's dropped. That leaves a tighter, cleaner set:
+ollo exposes each connector's sub-tools individually. Enable **only** these ~6 toggles across
+3 connectors:
 
-| Tool | Why it earns its place |
+**Firecrawl** (your only web tool — `firecrawl_search` confirms discovery works):
+- ✅ `firecrawl_search` — find the company's official site (query name + town).
+- ✅ `firecrawl_scrape` — read the homepage / contact / about page.
+- ✅ `firecrawl_map` *(optional but handy)* — list a site's pages to locate its /contact.
+- ❌ everything else: `firecrawl_agent`/`_agent_status` (a nested autonomous agent — never let
+  your agent spawn another; you'd lose control of the judgment), `firecrawl_crawl`/
+  `_check_crawl_status` (crawls whole sites — slow, costly, unnecessary), `firecrawl_interact`,
+  `firecrawl_monitor_*` (change-monitoring, not this job), `firecrawl_research_*` (academic
+  papers — irrelevant), `firecrawl_extract`/`_parse`/`_feedback` (redundant with scrape + the
+  model doing the reading).
+
+**Gmail:**
+- ✅ the **create-draft / compose** action only — **do not enable send.** (Google API is
+  ollo-covered; you just OAuth your account.)
+
+**Artifacts** (for the letter fallback):
+- ✅ `Save Artifact` — save the letter.
+- ✅ `Convert HTML to PDF` — turn the letter into a print-ready PDF to post.
+- ✅ `Download Artifact` *(optional)* — retrieve the letter PDF to actually send it.
+- ❌ `Upload Artifact`, `Load Artifact`, `List Artifacts`, `Delete Artifact`, `Download Content`
+  — artifact *management*, not needed to produce outputs.
+
+> Firecrawl needs **your own API key** (free tier at firecrawl.dev) — already connected.
+
+### Why whole categories stay off (the design-smell answer)
+
+| Off | Why it would be wrong |
 |---|---|
-| **Firecrawl** | The one web tool: **search** for the company's official site (name + town), then **read** the homepage/contact/about to judge "real, trading business?" and pull an email. Discovery *and* the judgment input. |
-| **Gmail** | Create the email **draft** (never send). The deterministic ending for the email path. |
-| **Artifacts** | Render the ranked shortlist table, and produce the **letter** artifact for the no-email fallback. |
-
-> ⚠️ **Check this in the builder — it makes or breaks the email demo beat.** Does ollo's
-> Firecrawl expose a **search/map** action (find URLs from a query), or only **scrape** (read a
-> URL you already have)?
-> - **Search available** → the agent discovers sites itself; the flow works exactly as written.
-> - **Scrape-only** → the agent can't *find* unknown sites, so every lead falls to
->   LETTER/ABSTAIN and the email beat dies. Fix: move discovery into `build_leads.py` (it can
->   call Firecrawl's *search API* in code to pre-attach a candidate URL per lead), leaving the
->   agent to scrape + judge. Arguably more on-brand: deterministic discovery, agent judgment.
-
-### Connectors need *your* accounts/keys (except Google)
-- **Firecrawl** — needs **your own Firecrawl API key** (free tier at firecrawl.dev; paste it
-  into ollo's Firecrawl connector). This is the only external key to get.
-- **Gmail** — Google APIs are covered by ollo; you just **OAuth your Google account**.
-- **Artifacts** — native to ollo; nothing to connect.
-
-### Deliberately do NOT connect (and why — gratuitous tools are a design smell)
-
-| Not connected | Why it would be wrong |
-|---|---|
-| **Search** (agentic / Drive / Notion / Calendar) | Sandbox-only — it searches connected sources, not the open web. The agent's web tool is Firecrawl; a search tool that can't reach the internet is dead weight here. |
-| **Code Execution / Shell / Read-Write File** | The agent must have **no code and no Companies House API access** — that's the deterministic half's job, already done in this repo. Handing the agent code re-opens a settled question and lets it be wrong about something a script decided. This is the single most important "no". |
-| **Data Analysis / SQL / Calculator** | There's nothing to compute — the leads arrive pre-scored. A SQL tool implies a database the agent shouldn't be touching. |
-| **Google Drive / Notion / Google Calendar / Slack** | No document store, wiki, calendar or channel is in this workflow. Each would be an unused connector inviting scope creep. |
+| **Search** (agentic / Drive / Notion / Calendar) | Sandbox-only — searches connected sources, not the open web. Firecrawl is the web tool; a search that can't reach the internet is dead weight here. |
+| **Code Execution / Shell / Read-Write File** | The agent must have **no code and no Companies House API access** — that's the deterministic half's job, already done in this repo. Handing the agent code re-opens a settled question and lets it be wrong about something a script decided. The single most important "no". |
+| **Data Analysis / SQL / Calculator** | Nothing to compute — leads arrive pre-scored. A SQL tool implies a database the agent shouldn't be touching. |
 | **Retrieval** | No corpus to retrieve over — the "knowledge" is live websites, which Firecrawl handles. |
+| **Google Drive / Notion / Google Calendar / Slack** | No document store, wiki, calendar or channel in this workflow. Each is an unused connector inviting scope creep. |
 
 ### Gmail authorisation ⚠️
 Connecting Gmail will trigger a Google OAuth consent for the firm's account. Grant the
