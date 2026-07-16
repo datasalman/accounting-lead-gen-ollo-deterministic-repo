@@ -56,19 +56,38 @@ an abstained lead, always include a PECR opt-out) rather than to vibe.
 
 ---
 
-## 3. Tools — connect exactly these four
+## 3. Tools — connect exactly these three
+
+Your web tool is **Firecrawl**, full stop. ollo's **Search** category (agentic search / Drive /
+Notion / Calendar) searches *connected sandbox sources*, not the open web — useless for
+discovering a company's website — so it's dropped. That leaves a tighter, cleaner set:
 
 | Tool | Why it earns its place |
 |---|---|
-| **Search** (agentic search) | Find the company's *official* website from name + post town. One capability: name → URL. |
-| **Firecrawl** | Read the homepage / about / contact page and judge whether it's a real trading business + pull an email. This is the judgment input. |
+| **Firecrawl** | The one web tool: **search** for the company's official site (name + town), then **read** the homepage/contact/about to judge "real, trading business?" and pull an email. Discovery *and* the judgment input. |
 | **Gmail** | Create the email **draft** (never send). The deterministic ending for the email path. |
 | **Artifacts** | Render the ranked shortlist table, and produce the **letter** artifact for the no-email fallback. |
+
+> ⚠️ **Check this in the builder — it makes or breaks the email demo beat.** Does ollo's
+> Firecrawl expose a **search/map** action (find URLs from a query), or only **scrape** (read a
+> URL you already have)?
+> - **Search available** → the agent discovers sites itself; the flow works exactly as written.
+> - **Scrape-only** → the agent can't *find* unknown sites, so every lead falls to
+>   LETTER/ABSTAIN and the email beat dies. Fix: move discovery into `build_leads.py` (it can
+>   call Firecrawl's *search API* in code to pre-attach a candidate URL per lead), leaving the
+>   agent to scrape + judge. Arguably more on-brand: deterministic discovery, agent judgment.
+
+### Connectors need *your* accounts/keys (except Google)
+- **Firecrawl** — needs **your own Firecrawl API key** (free tier at firecrawl.dev; paste it
+  into ollo's Firecrawl connector). This is the only external key to get.
+- **Gmail** — Google APIs are covered by ollo; you just **OAuth your Google account**.
+- **Artifacts** — native to ollo; nothing to connect.
 
 ### Deliberately do NOT connect (and why — gratuitous tools are a design smell)
 
 | Not connected | Why it would be wrong |
 |---|---|
+| **Search** (agentic / Drive / Notion / Calendar) | Sandbox-only — it searches connected sources, not the open web. The agent's web tool is Firecrawl; a search tool that can't reach the internet is dead weight here. |
 | **Code Execution / Shell / Read-Write File** | The agent must have **no code and no Companies House API access** — that's the deterministic half's job, already done in this repo. Handing the agent code re-opens a settled question and lets it be wrong about something a script decided. This is the single most important "no". |
 | **Data Analysis / SQL / Calculator** | There's nothing to compute — the leads arrive pre-scored. A SQL tool implies a database the agent shouldn't be touching. |
 | **Google Drive / Notion / Google Calendar / Slack** | No document store, wiki, calendar or channel is in this workflow. Each would be an unused connector inviting scope creep. |
@@ -119,9 +138,9 @@ demos. Pre-load `agent_input.md`, have Gmail authorised, and know your three lea
 1. **(0:00) Frame it (20s).** "A script already filtered 5.6M companies to Bedfordshire firms
    in filing distress and verified them live. This agent does the part that needs judgment —
    read the web, decide, draft, and it never sends."
-2. **(0:20) Happy path — EMAIL (45s).** Point at **1ST CHOICE ROOFERS LTD (12471414)**. Watch it search → find the
-   real site → Firecrawl the contact page → find a business email → mark channel EMAIL. This
-   is the normal case.
+2. **(0:20) Happy path — EMAIL (45s).** Point at **1ST CHOICE ROOFERS LTD (12471414)**. Watch Firecrawl search →
+   find the real site → read the contact page → pull a business email → mark channel EMAIL.
+   This is the normal case.
 3. **(1:05) The fallback — LETTER (45s).** Point at **2 TONE TRUCKING LTD (11061680)**. It searches, finds no
    usable website/email, and *chooses* to fall back to a physical letter to the registered
    office. **Say out loud:** "That branch — the agent picking letter over email on its own —

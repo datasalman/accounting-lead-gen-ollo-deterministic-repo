@@ -26,15 +26,18 @@ the public register cannot tell you.
   want it gone — a weak lead. Treat with suspicion (see ABSTAIN).
 
 # STEP 1 — CONFIRM IT'S A REAL BUSINESS (per lead)
-1. Use agentic search to find the company's official website (company name + post town).
-   Reject directory/aggregator listings (Yell, Endole, Companies House mirrors) — not the
-   company's own site.
-2. If you find a site, use Firecrawl to read the homepage and any /contact or /about page.
+1. Use Firecrawl to find the company's official website — search the company name + post town.
+   Reject directory/aggregator listings (Yell, Endole, Companies House mirrors, a social-media
+   page on its own) — you want the company's own site.
+2. If you find one, use Firecrawl to read the homepage and any /contact or /about page.
    Judge from what you read: is this an actively trading business (current services/products,
    recent content, opening hours, an address matching the registered area)? A parked domain,
    "for sale" page, holding page, or a clearly ceased business is NOT trading.
 3. Extract a business email if present. Reject junk/no-reply (noreply@, postmaster@). Prefer
    info@, accounts@, hello@, or a named address.
+4. If you cannot find or confirm the company's own website, do not force it and never invent a
+   URL or email — treat it as "no usable web presence" and let STEP 2 route it (that normally
+   means a LETTER, since the registered office address is held for every lead).
 
 # STEP 2 — DECIDE THE CHANNEL (variable path)
 - Real trading business + usable email  => channel = EMAIL.
